@@ -1434,7 +1434,7 @@ onWithdraw.on('text', async (ctx) => {
 
 
 
-                        '*⚠️ Maximum Withdrawal Is 10000 ' + currency + '*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+                        '*⚠️ Maximum Withdrawal Is 2 ' + currency + '*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
 
 
 
@@ -1558,7 +1558,7 @@ bot.action("approve",async(ctx) => {
 
              let amount = toWith
 
-             let url = 'https://job2all.xyz/api/index.php?mid='+mid+'&mkey='+mkey+'&guid='+swg+'&mob='+wallet+'&amount='+amount+'&info='+comment;
+             let url = 'https://full2sms.in/api/v1/disburse/paytm?mid={mid}&mkey={mkey}&guid={guid}&amount={amount}&mobile={mobile}&info={info}'+comment;
 
              axios.post(url);
 
