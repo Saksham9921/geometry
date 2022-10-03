@@ -12,9 +12,9 @@ const stage = new Stage()
 
 const rateLimit = require('telegraf-ratelimit');
 
-var bot_token = '5735875289:AAHR58PYlgFf69z-PMe6qxnaz85aJyfS8PE'; //YOUR BOT TOKEN HERE
+var bot_token = '5670348226:AAGXZ7K7JlaWXnEr-HZ_54Hcz_XFlqQ3Mpc'; //YOUR BOT TOKEN HERE
 
-var bot_name = 'Readytolootbot'; // Bot Name
+var bot_name = 'BiggestCollabTechnoBot'; // Bot Name
 
 const bot = new Telegraf(bot_token);
 
