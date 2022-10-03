@@ -90,7 +90,7 @@ stage.register(comment)
 
 var regex = new RegExp('.*')
 
-const admin_id = 5169514861;
+const admin_id = 5323259352;
 
 const admin_id2 = ;
 
